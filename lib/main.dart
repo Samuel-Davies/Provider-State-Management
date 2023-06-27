@@ -1,19 +1,115 @@
 import 'package:flutter/material.dart';
 
+// state Management using SetState
+
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  String data = 'Rambo';
+
+  void changeValue(String dataChanged) {
+    setState(() {
+      data = dataChanged;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print('Building MainPage');
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(data),
+      ),
+      body: Screen2(
+        data: data,
+        changeData: changeValue,
+      ),
+    );
+  }
+}
+
+class Screen2 extends StatelessWidget {
+  const Screen2({Key? key, required this.data, required this.changeData})
+      : super(key: key);
+  final String data;
+  final Function(String) changeData;
+  @override
+  Widget build(BuildContext context) {
+    print('Building Screen2');
+    return Container(
+      child: Screen3(
+        data: data,
+        changeData: changeData,
+      ),
+    );
+  }
+}
+
+class Screen3 extends StatelessWidget {
+  const Screen3({Key? key, required this.data, required this.changeData})
+      : super(key: key);
+  final String data;
+  final Function(String) changeData;
+  @override
+  Widget build(BuildContext context) {
+    print('Building Screen3');
+    return Container(
+      child: Screen4(
+        data: data,
+        changeData: changeData,
+      ),
+    );
+  }
+}
+
+class Screen4 extends StatefulWidget {
+  const Screen4({Key? key, required this.data, required this.changeData})
+      : super(key: key);
+  final String data;
+  final Function(String) changeData;
+
+  @override
+  State<Screen4> createState() => _Screen4State();
+}
+
+class _Screen4State extends State<Screen4> {
+  @override
+  Widget build(BuildContext context) {
+    print('Building Screen4');
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(widget.data),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                widget.changeData('chuck Norris');
+              });
+            },
+            child: const Text('Change data'),
+          ),
+        ],
       ),
     );
   }
